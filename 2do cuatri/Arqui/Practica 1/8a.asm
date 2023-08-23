@@ -1,13 +1,12 @@
 ;En el ejercicio se plantea que la cadena termina en 00h, ejemplo 'abcd'00h pero en el vonsim esto no se puede.
-;Por ende, esta resolucion compila en Vonsim y queda en loop infinito porque no podemos meter ese 00hn al final.
-;Peeero... cumple y andaria bien con lo que pide el ejercicio si se metiese algo como "abcd"00h que se debe poder con el simulador viejo.
+; por eso me tome la libertad de agregar la variable FIN_CADENA DB 00H
 
 ORG 3000H ; Subrutina 
 LONGITUD: MOV BX, AX
-MOV DL, 0
-MOV CH, 0
+MOV DX, 0
+MOV CX, 0
 LOOP: MOV CL, [BX]
-CMP CL, DL
+CMP CL, 0
 JZ FIN
 INC BX
 INC DL
@@ -17,6 +16,7 @@ FIN: ret
 
 org 1000h
 CADENA DB "abcd"
+FIN_CADENA DB 00H
 RES DW ?
 
 org 2000h
