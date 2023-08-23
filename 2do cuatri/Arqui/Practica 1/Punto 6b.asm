@@ -1,6 +1,20 @@
+ORG 3000H ; Subrutina MUL
+MUL: MOV DX, 0
+LOOP: ADD DX, CX
+DEC AX
+JNZ LOOP
+MOV RES, DX
+ret
+
 org 1000h
-NUM1 DB ?
-NUM2 DB ?
+NUM1 DW 3
+NUM2 DW 5
 RES DW ?
 
 org 2000h
+
+MOV AX, NUM1
+MOV CX, NUM2
+CALL MUL
+hlt
+end
