@@ -1,18 +1,18 @@
 ORG 3000h
 ROTARIZQ: MOV BX, AX
-MOV AL, BYTE PTR [BX] ; me guardo el byte en AL
-ADD AL, AL
+MOV DL, BYTE PTR [BX] ; me guardo el byte en DL
+ADD DL, DL
 JC sum1
 JMP FIN
-sum1: INC AL
-FIN: MOV BYTE PTR [BX], AL
+sum1: INC DL
+FIN: MOV BYTE PTR [BX], DL
 ret
 
 ORG 1000h
-miByte DB 01101011b
+miByte DB 10010100b
 
 ORG 2000h
-mov AX, offset miByte
+mov AX, offset miByte ; pasamos el byte por referencia por registro
 CALL ROTARIZQ
 
 HLT
