@@ -5,11 +5,7 @@ loop: SUB AX, CX
 CMP AX, CX
 JS FIN
 JMP loop
-FIN:MOV DX, AX
-    POP BX ; guardo el IP momentaneamente
-    PUSH DX ; pusheo en la pila el resultado del DIV
-    PUSH BX ; vuelvo a poner el IP al tope de la pila
-  ret
+FIN:ret ; AX = el resto 
 
 ORG 1000h
 primero DW 11
