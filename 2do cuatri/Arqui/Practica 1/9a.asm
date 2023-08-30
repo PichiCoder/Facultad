@@ -1,1 +1,19 @@
+ORG 3000h
+ROTARIZQ: MOV BX, AX
+MOV AL, BYTE PTR [BX] ; me guardo el byte en AL
+ADD AL, AL
+JC sum1
+JMP FIN
+sum1: INC AL
+FIN: MOV BYTE PTR [BX], AL
+ret
 
+ORG 1000h
+miByte DB 01101011b
+
+ORG 2000h
+mov AX, offset miByte
+CALL ROTARIZQ
+
+HLT
+END
