@@ -2,10 +2,8 @@ ORG 3000h
 ROTARIZQ: MOV BX, AX
 MOV DL, BYTE PTR [BX] ; me guardo el byte en DL
 ADD DL, DL
-JC sum1
-JMP FIN
-sum1: INC DL
-FIN: MOV BYTE PTR [BX], DL
+ADC DL, 0
+MOV BYTE PTR [BX], DL
 ret
 
 ORG 4000h
