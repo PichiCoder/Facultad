@@ -1,22 +1,32 @@
-;Modificar el programa anterior agregando una subrutina llamada ES_NUM que verifique si el caracter ingresado es
-; realmente un número. De no serlo, el programa debe mostrar el mensaje “CARACTER NO VALIDO”. 
-; La subrutina debe recibir el código del caracter por referencia desde el programa principal y 
-; debe devolver vía registro el valor 0FFH en caso de tratarse de un número o el valor 00H en caso contrario. 
-;Tener en cuenta que el código del “0” es 30H y el del “9” es 39H.
+;Escribir un programa que solicite el ingreso de un número (de un dígito) por teclado y muestre en pantalla dicho
+; número expresado en letras. Luego que solicite el ingreso de otro y así sucesivamente. Se debe finalizar la ejecución al
+; ingresarse en dos vueltas consecutivas el número cero.
 
 ORG 1000H
 
 MSJ DB "INGRESE UN NUMERO:"
 FIN1 DB ?
-MSJ2 DB "CARACTER NO VALIDO"
+nros DB 30h,"cero  ", 31h, "uno   ", 32h, "dos   ", 33h, "tres  ", 34h, "cuatro", 35h, "cinco ", 36h, "seis  ", 37h, "siete ", 38h, "ocho  ", 39h, "nueve "
+enLetras DB ?
 FIN2 DB ?
 
 ORG 1500H
 
-NUM DB ?
+NUM DB ? ; recordar que se guarda en codigo ascii (30h a 39h)
 
 ORG 3000h
+;imprimir msj inicial
+inicio: MOV BX, OFFSET MSJ
+MOV AL, OFFSET FIN1-OFFSET MSJ
+INT 7
+ret 
 
+;cargar char
+input: MOV BX, OFFSET NUM
+INT 6
+ret
+
+;Reuso del punto 5 jeje
 ES_NUM: CMP Byte PTR [BX], 30h ; evaluo si es >=30h, osea que caracter>=0
 JNS mayorA30h
 MOV DL,00h
@@ -26,30 +36,41 @@ JS esNum
 MOV DL,00h
 JMP fin
 esNum: MOV DL, 0FFh
+MOV DH, Byte PTR [BX]
 fin: ret 
 
+; imprimir, si es que era un digito jeje
+; el nro a traducir a texto lo tengo en codigo ascci en DH
+output: 
+MOV BX, OFFSET nros
+loop3: CMP [BX], DH
+JZ coinc
+INC BX
+JMP loop3
+
+coinc: INC BX
+MOV AL, 6
+INT 7
+ret
+
+;
+contar0s: INC AH
+ret
+
 ORG 2000H
+MOV AH, 00h ; para contar ceros despues
 
-MOV BX, OFFSET MSJ
-MOV AL, OFFSET FIN1-OFFSET MSJ
-INT 7
+loop: CALL inicio ;leer msj incial
+CALL input ;ingresar digito
+CALL ES_NUM ; compruebo que digito es. SI lo es, queda guardado en DH
 
-MOV BX, OFFSET NUM
-INT 6
+CMP NUM, 30h ;para ver si se ingreso un cero
+JZ contar0s
+CMP AH, 2 ; si 2-2=0 es porque el 0 ya se ingreso dos veces y hay que terminar.
+JZ final 
 
-; la rutina devuelve resultado por DL
-CALL ES_NUM 
-CMP DL, 00h
-JNZ es_Char ; si no es 0 es un nro.
+CALL output ;imprimir el nro en palabras. Ej 7 --> 'siete'
+JMP loop
 
-MOV BX, OFFSET MSJ2
-MOV AL, OFFSET FIN2-OFFSET MSJ2
-INT 7
-
-es_Char: MOV BX, OFFSET NUM
-MOV AL, 1
-INT 7
-MOV CL, NUM
-
-INT 0
+final: INT 0
 END
