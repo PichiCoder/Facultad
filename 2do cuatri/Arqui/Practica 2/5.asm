@@ -40,11 +40,11 @@ INT 6
 ; la rutina devuelve resultado por DL
 CALL ES_NUM 
 CMP DL, 00h
-JNZ es_Char ; si no es 0 es un nro, todo ok.
+JNZ es_Char ; si no es 0 es un nro.
 
 MOV BX, OFFSET MSJ2
 MOV AL, OFFSET FIN2-OFFSET MSJ2
-INT 7 ; podemos jumpear a la rutina!
+INT 7
 
 es_Char: MOV BX, OFFSET NUM
 MOV AL, 1
