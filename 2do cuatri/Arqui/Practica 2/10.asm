@@ -54,21 +54,21 @@ POP AX
 IRET
 END
 
-a) 
-EOI (End of Interruption) indica que la interrupcion fue gestionada.
-      Direccion 20H
+;a) 
+;EOI (End of Interruption) indica que la interrupcion fue gestionada.
+;      Direccion 20H
       
-El IMR (Interrupt Mask Register) indica, tambien mediante bit 1, indica cuales son las interrupciones que estan enmascaradas.
-      Direccion 21H
+;El IMR (Interrupt Mask Register) indica, tambien mediante bit 1, indica cuales son las interrupciones que estan enmascaradas.
+ ;     Direccion 21H
       
-El IRR (Interrupt Request Register) indica, mediante bit 1, los pedidos de interrupcion que deben gestionarse.
-      Direccion 22H
+;El IRR (Interrupt Request Register) indica, mediante bit 1, los pedidos de interrupcion que deben gestionarse.
+;      Direccion 22H
       
-El ISR (In Service Register) indica, mediante bit 1, la interrupcion que esta siendo atendida en este momento.
-      Direccion 23H
+;El ISR (In Service Register) indica, mediante bit 1, la interrupcion que esta siendo atendida en este momento.
+;      Direccion 23H
       
-INT0-INT7: guardan la direccion del vector correspondiente. Ese vector contiene la direccion de la porcion de codigo que gestiona la interrupcion.
-    Direcciones: 24H a 2BH
+;INT0-INT7: guardan la direccion del vector correspondiente. Ese vector contiene la direccion de la porcion de codigo que gestiona la interrupcion.
+;    Direcciones: 24H a 2BH
 
-b) Los programables son al menos el ISR, IRR e IMR. EOI no estoy seguro y INT0-7 no lo son.
+;b) Los programables son al menos el IMR, EOI y INT0-7.
   
