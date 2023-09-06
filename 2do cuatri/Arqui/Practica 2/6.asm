@@ -63,6 +63,7 @@ CALL input ;ingresar digito
 ; que no se porque me tira Stack Underflow...
 CMP NUM, 30h ;para ver si se ingreso un cero
 JZ contar0s
+MOV AH, 00h
 JMP seguir
 contar0s: INC AH
 seguir: CMP AH, 2 ; si 2-2=0 es porque el 0 ya se ingreso dos veces y hay que terminar.
