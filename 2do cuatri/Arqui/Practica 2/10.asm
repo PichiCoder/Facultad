@@ -1,10 +1,10 @@
 ;Interrupción por hardware: tecla F10.
 ; Escribir un programa que, mientras ejecuta un lazo infinito, cuente el número de veces que se presiona la tecla F10 y
 ; acumule este valor en el registro DX.
-Explicar detalladamente:
-a) La función de los registros del PIC: ISR, IRR, IMR, INT0-INT7, EOI. Indicar la dirección de cada uno.
-b) Cuáles de estos registros son programables y cómo trabaja la instrucción OUT.
-c) Qué hacen y para qué se usan las instrucciones CLI y STI
+;Explicar detalladamente:
+;a) La función de los registros del PIC: ISR, IRR, IMR, INT0-INT7, EOI. Indicar la dirección de cada uno.
+;b) Cuáles de estos registros son programables y cómo trabaja la instrucción OUT.
+;c) Qué hacen y para qué se usan las instrucciones CLI y STI
 
 
 ;Constantes
