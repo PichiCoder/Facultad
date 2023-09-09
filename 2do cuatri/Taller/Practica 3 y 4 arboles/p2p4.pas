@@ -67,12 +67,11 @@ procedure cargarArboles(var aP: aPrestamos; var aL: aLibros);
 		{si el nodo del arbol es nil entonces no hay ninguna lista correspondiente al ISBN, 
 		* por ende incializo una nueva y agrego el primer nodo de la lista al llamar a agregarLibroAListaDelNodo(lista, p)}
 		if aL = nil then begin
-		
+			new(aL); aL^.hi:= nil; aL^.hd:= nil;
+   
 			aL^.datoL:= nil;
 			
 			agregarPrestamoAListaDelNodo(aL^.datoL, p);
-			
-			new(aL); aL^.hi:= nil; aL^.hd:= nil;
 			
 			end
 			
