@@ -13,24 +13,40 @@ ORG 40
 DIR_RUT_CLK DW RUTINA_CLK
 
 ORG 1000H
-SEG DB 30H
-DB 30H
-FINS DB ?
-
-MIN DB 30H
-DB 30H
+minutero DB 30H ; X?:??
+DB 30H ; ?X:??
+DB ':'
+DB 30H ; ??:X?
+DB 30H ; ??:?X
+DB ' '
 FINM DB ?
+
+limite DB 0 ; para controlar cuando se llega a 60 segs
 
 ORG 3000H
 RUTINA_CLK: PUSH AX
-INC SEG+1
-CMP SEG+1, 3AH
+
+;para controlar minutos usamos el limite
+INC limite
+INC minutero+3 ; primer digito de los segundos
+CMP limite, 6
+JNZ RESET ; Si no da 0, osea no pasaron 60 segs, se imprime valor actual de minutero
+MOV limite, 0
+
+INC minutero+1
+
+CMP minutero+3, 36H ;para controlor decenas de segundos
 JNZ RESET
-MOV SEG+1, 30H
-INC SEG
-CMP SEG, 36H
+MOV minutero+3, 30H
+
+CMP minutero+1, 3AH
 JNZ RESET
-MOV SEG, 30H
+MOV minutero+1, 30H
+INC minutero
+CMP minutero, 36H
+JNZ RESET
+MOV minutero, 30H
+
 RESET: INT 7
 MOV AL, 0
 OUT CONT, AL ; Aca seteo el conteo a 0
@@ -55,8 +71,8 @@ OUT COMP, AL ; COMP lo pongo en 10 porque quiero la interrupcion cada 10 segundo
 MOV AL, 0
 OUT CONT, AL
 ;
-MOV BX, OFFSET SEG
-MOV AL, OFFSET FINS-OFFSET SEG
+MOV BX, OFFSET minutero
+MOV AL, OFFSET FINM-OFFSET minutero
 
 STI
 
