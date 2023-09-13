@@ -10,33 +10,17 @@
 ;Constantes
 PIC EQU 20H
 EOI EQU 20H
+IMR EQU 21H
+IRR EQU 22H
+ISR EQU 23H
+INT0 EQU 24H
+
 N_F10 EQU 10 ; Para el lugar del vector en la tabla de vectores
 
 
 ORG 40 ; Lugar del vector * 4 (porque cada entrada ocupa 4bytes) = 40
 IP_F10 DW RUT_F10  ; Aquí va la dirección de la primera instrucción del servicio que atiende a la interrupción.
 ; Esta dirección tiene una etiqueta RUT_F10, que seria la direccion 3000H
-
-ORG 2000H
-;CLI y STI activan y desactivan interrupciones.
-CLI
-
-;Estas dos instrucciones cargan en el registro IMR el valor FEh, poniendo el bit 0 en 0 y los
-; restantes bits en 1, enmascarando todas las interrupciones menos la INT0 que corresponde a la tecla F10.
-MOV AL, 0FEH
-OUT PIC+1, AL 
-
-;Estas dos instrucciones escriben, en el registro INT0 del PIC, el valor de la posición en la tabla
-; de vectores, en éste registro se buscará dicha posición para la interrupción producida por F10.
-MOV AL, N_F10
-OUT PIC+4, AL
-
-;En el registro DX vamos a contar cuántas veces fué presionada la tecla F10.
-MOV DX, 0
-
-STI
-
-LAZO: JMP LAZO
 
 ORG 3000H
 RUT_F10: PUSH AX
@@ -52,6 +36,28 @@ POP AX
 ;La instrucción IRET es similar a una instrucción RET, por utilizar la pila, pero recupera una copia del registro de
 ; estado y la dirección de retorno. Extrae 6 bytes de la pila: 4 para la dirección de retorno y 2 para el registro de estado.
 IRET
+
+ORG 2000H
+;CLI y STI activan y desactivan interrupciones.
+CLI
+
+;Estas dos instrucciones cargan en el registro IMR el valor FEh, poniendo el bit 0 en 0 y los
+; restantes bits en 1, enmascarando todas las interrupciones menos la INT0 que corresponde a la tecla F10.
+MOV AL, 0FEH
+OUT IMR, AL 
+
+;Estas dos instrucciones escriben, en el registro INT0 del PIC, el valor de la posición en la tabla
+; de vectores, en éste registro se buscará dicha posición para la interrupción producida por F10.
+MOV AL, N_F10
+OUT INT0, AL
+
+;En el registro DX vamos a contar cuántas veces fué presionada la tecla F10.
+MOV DX, 0
+
+STI
+
+LAZO: JMP LAZO
+
 END
 
 ;a) 
