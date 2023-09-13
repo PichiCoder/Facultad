@@ -5,9 +5,6 @@
 ; a) Cómo funciona el TIMER y cuándo emite una interrupción a la CPU.
 ; b) La función que cumplen sus registros, la dirección de cada uno y cómo se programan.
 
-; a) Cómo funciona el TIMER y cuándo emite una interrupción a la CPU.
-; b) La función que cumplen sus registros, la dirección de cada uno y cómo se programan.
-
 ;Respuestas:
 ; El temporizador tiene dos registros de 8 bits.
 ; - COMP, ubicado en 10H, es el registro de comparacion.
@@ -30,6 +27,8 @@ DB 30H
 FIN DB ?
 
 ORG 3000H
+;Se ve rara la secuencia, el tema es que cada 10 segundos que pasan tenes que cambiar el primer
+; caracter que se imprime 00..09, 10..19 , 20..29 y asi...
 RUT_CLK: PUSH AX
 INC SEG+1
 CMP SEG+1, 3AH
@@ -50,10 +49,10 @@ IRET
 ORG 2000H
 CLI
 ;config del PIC
-MOV AL, 0FDH ; 1111 1101
-OUT PIC+1, AL ; PIC: registro IMR
+MOV AL, 0FDH ; muevo 1111 1101
+OUT PIC+1, AL ; IMR
 MOV AL, N_CLK
-OUT PIC+5, AL ; PIC: registro INT1
+OUT PIC+5, AL ; INT1
 ;
 
 ;config del Timer
