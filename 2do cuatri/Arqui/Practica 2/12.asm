@@ -5,6 +5,17 @@
 ; a) Cómo funciona el TIMER y cuándo emite una interrupción a la CPU.
 ; b) La función que cumplen sus registros, la dirección de cada uno y cómo se programan.
 
+; a) Cómo funciona el TIMER y cuándo emite una interrupción a la CPU.
+; b) La función que cumplen sus registros, la dirección de cada uno y cómo se programan.
+
+;Respuestas:
+; El temporizador tiene dos registros de 8 bits.
+; - COMP, ubicado en 10H, es el registro de comparacion.
+; - CONT, en 11H, es el registro contador, se incrementa  una vez por segundo automaticamente.
+; - Cuando COMP = CONT se genera una interrupcion del timer.
+; El timer esta configurado a la linea 1 del PIC, INT1 ubicada en 25H
+
+
 TIMER EQU 10H
 PIC EQU 20H
 EOI EQU 20H
@@ -38,17 +49,24 @@ IRET
 
 ORG 2000H
 CLI
-MOV AL, 0FDH
+;config del PIC
+MOV AL, 0FDH ; 1111 1101
 OUT PIC+1, AL ; PIC: registro IMR
 MOV AL, N_CLK
 OUT PIC+5, AL ; PIC: registro INT1
+;
+
+;config del Timer
 MOV AL, 1
-OUT TIMER+1, AL ; TIMER: registro COMP
+OUT TIMER+1, AL ; TIMER: registro COMP lo pongo en 1
 MOV AL, 0
-OUT TIMER, AL ; TIMER: registro CONT
+OUT TIMER, AL ; TIMER: registro CONT lo pongo en 0
+;
 MOV BX, OFFSET SEG
 MOV AL, OFFSET FIN-OFFSET SEG
+
 STI
+
 LAZO: JMP LAZO
 
 END
