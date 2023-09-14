@@ -17,11 +17,11 @@ ORG 80
 DIR_RUTINA_F10 DW RUTINA_F10
 
 ORG 1000H
-flag DB 0
+flag DB 1
 
 ORG 3000H
 RUTINA_F10: PUSH AX
-;Accion del F10: quiero que al presionarlose reinicie el timer!
+;Accion del F10: quiero que al presionarlo se reinicie el timer!
 ;Entonces hago lo siguiente:
 MOV AL, 0
 OUT CONT, AL ; seteo el conteo a 0 para reiniciar el Timer
@@ -32,11 +32,11 @@ POP AX
 IRET
 
 RUTINA_CLK: PUSH AX
-;
-
-;
+; solo me tengo que preocupar de que si el conteo llego a 30 y no se presiono el F10 se tiene que resetear el conteo.
 MOV AL, 0
 OUT CONT, AL ; seteo el conteo a 0 para reiniciar el Timer
+; Como variante, si quisiera que el programa termine al llegar a contar los 30 segundos haria lo siguiente con mi variable flag:
+;" MOV flag, 0 ", y en el programa ppal pongo el loop aprovechando esta condicion para cortar.
 MOV AL, EOI
 OUT EOI, AL
 POP AX
@@ -64,4 +64,7 @@ STI
 
 loop: JMP loop
 
+; El loop si usara la variante para cortar el programa:
+;" loop: CMP flag, 0 "
+;" JNZ loop "
 END
