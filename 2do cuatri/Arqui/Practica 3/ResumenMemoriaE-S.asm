@@ -14,8 +14,8 @@ PA EQU 30H ; ligado a llaves
 PB EQU 31H ; ligado a luces
 CA EQU 32H
 CB EQU 33H
-;1 entrada
-;0 salida
+;1 prendida / entrada
+;0 apagada / salida
 
 ;HANDSHAKE
 DATO EQU 40H
