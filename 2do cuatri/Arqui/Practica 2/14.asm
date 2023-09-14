@@ -36,12 +36,12 @@ CMP SEG+1, 3AH
 JNZ RESET
 MOV SEG+1, 30H
 INC SEG
-CMP SEG, 33H
+CMP SEG, 33H ; para ver si el primer digito es 30 y cortar el programa
 JNZ RESET
-;
 MOV DL, 1 ; Pongo en TRUE el flag de finalizacion
 MOV AL, 0FFH ; Deshabilito interrupciones en IMR
 OUT IMR, AL
+;
 RESET: MOV AL, 2 ; El contador tiene 2 caracteres
 INT 7 ; Se imprime el valor actual
 MOV AL, 0 ; Se vuelve a cero el contador del TIMER
