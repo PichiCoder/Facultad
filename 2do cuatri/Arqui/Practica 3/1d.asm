@@ -33,8 +33,8 @@ RUTINA_CLK:PUSH AX
 MOV AL, contador
 OUT PA, AL
 IN AL, PA ;Consulto estado de las llaves
-OUT PB, AL;De acuerdo al estado escribo en las luces
-INC contador ; la unica accion que me interesa del timer
+OUT PB, AL ;De acuerdo al estado escribo en las luces
+INC contador
 
 MOV AL, 0
 OUT CONT, AL ; reseteo
