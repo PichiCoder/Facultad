@@ -5,8 +5,8 @@ CONT EQU 10H
 COMP EQU 11H
 EOI EQU 20H
 IMR EQU 21H
-F10 EQU 24H
-TIMER EQU 25H
+INT0 EQU 24H
+INT1 EQU 25H
 
 POS_VECTOR_CLK EQU 10
 POS_VECTOR_F10 EQU 20
@@ -49,10 +49,10 @@ MOV AL, 0FCH ; muevo 1111 1100 AL IMR para tener habilitado el Timer y el F10
 OUT IMR, AL ; recordar que OUT es escribir en memoria de E/S
 
 MOV AL, POS_VECTOR_F10
-OUT F10, AL ; pongo ID en INT0
+OUT INT0, AL ; pongo ID en INT0
 
 MOV AL, POS_VECTOR_CLK
-OUT TIMER, AL ; pongo ID en INT1
+OUT INT1, AL ; pongo ID en INT1
 ;
 
 ;config del Timer
