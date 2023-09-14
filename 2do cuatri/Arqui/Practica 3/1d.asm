@@ -22,19 +22,22 @@ CB EQU 33H
 ;1 prendida / entrada
 ;0 apagada / salida
 
-ID_Timer EQU 10
+POS_VECTOR_CLK EQU 10
 
-ORG 40H
-Dir_Rut_Timer DW Rut_Timer
-
+ORG 40
+DIR_RUT_CLK DW RUTINA_CLK
 
 ORG 3000H
-Rut_Timer:PUSH AX
-
+RUTINA_CLK:PUSH AX
+;accion que me interesa por segundo
+MOV AL, contador
+OUT PA, AL
+IN AL, PA ;Consulto estado de las llaves
+OUT PB, AL;De acuerdo al estado escribo en las luces
 INC contador ; la unica accion que me interesa del timer
 
 MOV AL, 0
-OUT CONT, AL
+OUT CONT, AL ; reseteo
 MOV AL, 20H
 OUT EOI, AL
 POP AX
@@ -45,15 +48,19 @@ contador DB 01H
 
 ORG 2000H
 CLI
-;Configuro Llaves como entrada y Luces como salida
-MOV AL, 0FFH
+;Configuro Llaves y Luces como salida
+MOV AL, 0H
 OUT CA, AL
 MOV AL, 0H
 OUT CB, AL
 
+;config del PIC
+MOV AL, 0FDH ; muevo 1111 1101 AL IMR para tener habilitado el Timer
+OUT IMR, AL ; recordar que OUT es escribir en memoria de E/S
+
 ;Configuro el timer
-MOV AL, ID_Timer
-OUT INT1, AL
+MOV AL, POS_VECTOR_CLK
+OUT INT1, AL ; config del timer
 
 MOV AL, 1
 OUT COMP, AL
@@ -61,12 +68,8 @@ MOV AL, 0
 OUT CONT, AL
 STI
 
-loop: MOV AL, contador
-OUT PA, AL
-IN AL, PA ;Consulto estado de las llaves
-OUT PB, AL;De acuerdo al estado escribo en las luces
-CMP contador, 255
-JNZ loop
+loop: CMP contador, 255
+JNZ loop ; si ya hice todo el loop que se pide de las luces corto el programa al no volver el contador a 0
 
 INT 0
 END
