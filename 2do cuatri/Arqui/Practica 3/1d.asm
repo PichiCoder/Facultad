@@ -30,11 +30,11 @@ Dir_Rut_Timer DW Rut_Timer
 
 ORG 3000H
 Rut_Timer:PUSH AX
-MOV AL, 0
-OUT CONT, AL
 
 INC contador ; la unica accion que me interesa del timer
 
+MOV AL, 0
+OUT CONT, AL
 MOV AL, 20H
 OUT EOI, AL
 POP AX
