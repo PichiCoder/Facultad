@@ -53,7 +53,9 @@ MOV AL, EOI ; Se finaliza la atencion de la interrupcion
 OUT EOI, AL
 POP AX ; Se recupera el valor que contenia AX al entrar en la rutina
 IRET
+
 ORG 2000H
+
 CLI
 MOV AL, 0FEH
 OUT IMR, AL ; PIC: registro IMR
