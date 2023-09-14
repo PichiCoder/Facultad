@@ -1,4 +1,4 @@
-;Implementar un reloj similar al utilizado en los partidos de básquet, que arranque y detenga su marcha al presionar
+;14) Implementar un reloj similar al utilizado en los partidos de básquet, que arranque y detenga su marcha al presionar
 ; sucesivas veces la tecla F10 y que finalice el conteo al alcanzar los 30 segundos.
 
 CONT EQU 10H
