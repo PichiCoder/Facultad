@@ -10,8 +10,8 @@ INT1 EQU 25H ;para el Timer
 ;hasta INT7 en 2BH
 
 ;PIO
-PA EQU 30H
-PB EQU 31H
+PA EQU 30H ; ligado a llaves
+PB EQU 31H ; ligado a luces
 CA EQU 32H
 CB EQU 33H
 ;1 entrada
