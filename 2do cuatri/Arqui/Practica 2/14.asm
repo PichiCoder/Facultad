@@ -67,4 +67,6 @@ loop: JMP loop
 ; El loop si usara la variante para cortar el programa:
 ;" loop: CMP flag, 0 "
 ;" JNZ loop "
+
+INT 0
 END
