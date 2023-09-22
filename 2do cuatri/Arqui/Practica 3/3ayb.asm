@@ -1,3 +1,6 @@
+; Escribir un programa que imprime “INGENIERIA E INFORMATICA” en la impresora a través del
+; HAND-SHAKE. La comunicación se establece por consulta de estado (polling). ¿Qué diferencias
+; encuentra con el ejercicio 2b?
 ; Respuestas
 ; a) respecto al ejercicio 2b, esto es mas sencillo de implementar. Presenta menos configuraciones para hacer lo mismo.
 ;b) Comunicacion directa casi sin configuraciones. El PIO es configurable por completo, lo que permite una flexibilidad muy grande a la hora de usarlo con otros dispositivos a diferencia del HANDSHAKE que es exclusivamente para la impresora.
@@ -52,6 +55,8 @@ INC BX
 DEC CL
 JNZ loop
 
+loop2: JMP loop2 ; para que termine de imprimir lo que esta en el buffer
 
-INT 0
+
+INT 0
 END
